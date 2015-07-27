@@ -20,6 +20,11 @@ This project uses [SBT](http://www.scala-sbt.org) to build the project, and is p
 > sbt publish
 ```
 
+#### Using Maven
+
+```shell
+> mvn install
+```
 
 ### Sample Usage
 
