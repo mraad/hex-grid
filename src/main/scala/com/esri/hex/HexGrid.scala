@@ -14,6 +14,11 @@ case class HexRowCol(var row: Long = 0L, var col: Long = 0L) {
    * @return packed row/col value.
    */
   def toLong = (row << Integer.SIZE) | col
+
+  /**
+   * Convert the row/col pair to a text
+   */
+  def toText = s"$row:$col"
 }
 
 /**
@@ -24,7 +29,7 @@ trait HexXY {
   var y = 0.0
 }
 
-private case class Hex00() extends HexXY
+case class Hex00() extends HexXY
 
 /**
  * The HexGrid
