@@ -1,8 +1,10 @@
+organization := "com.esri"
+
 name := "hex-grid"
 
-version := "1.1"
+version := "1.0"
 
-organization := "com.esri"
+isSnapshot := true
 
 scalaVersion := "2.10.4"
 
