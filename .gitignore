@@ -1,5 +1,7 @@
 *.class
 *.log
+*.xml
+!pom.xml
 
 # sbt specific
 .cache/
@@ -16,4 +18,4 @@ project/plugins/project/
 .scala_dependencies
 .worksheet
 
-.idea
+.idea/

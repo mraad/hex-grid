@@ -46,9 +46,19 @@ class HexGridSpec extends FlatSpec {
     }
   }
 
-  it should "-7859566.073085553 5097327.411990407" in {
+  it should "-7859566.073085553, 5097327.411990407" in {
     val hexGrid = HexGrid(50.0)
     val rowcol = hexGrid.convertXYToRowCol(-7859566.073085553, 5097327.411990407)
     rowcol should not be null
+    rowcol.row shouldBe 67965
+    rowcol.col shouldBe -90755
+  }
+
+  it should "-7859566.074, 5097327.411" in {
+    val hexGrid = HexGrid(50.0)
+    val rowcol = hexGrid.convertXYToRowCol(-7859566.074, 5097327.411)
+    rowcol should not be null
+    rowcol.row shouldBe 67964
+    rowcol.col shouldBe -90754
   }
 }
