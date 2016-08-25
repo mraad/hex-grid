@@ -13,6 +13,8 @@ case class HexRowCol(var row: Long = 0L, var col: Long = 0L) {
     * Make sure the row and col values are positive for this to work "right" - define an origin value to HexGrid
     * That is at the lower left corner of your space domain.
     *
+    * Very important! both row and col _have_ to be positive - make sure that the origX/Y of the hex grid are set to the min X/Y of the input set.
+    *
     * @return packed row/col value.
     */
   def toLong = (row << Integer.SIZE) | col
@@ -37,8 +39,8 @@ case class Hex00() extends HexXY
   * The HexGrid
   *
   * @param size  the size of hexagon from its center to its top vertex.
-  * @param origX optional horizontal origin.
-  * @param origY optional vertical origin.
+  * @param origX optional horizontal origin. Default value is 0.0 -  However, make sure that it is set to the min horizontal value of your input set.
+  * @param origY optional vertical origin. Default value is 0.0 - However, make sure that it is set to the min vertical value of your input set.
   */
 case class HexGrid(size: Double, origX: Double = 0.0, origY: Double = 0.0) {
 
@@ -105,7 +107,7 @@ case class HexGrid(size: Double, origX: Double = 0.0, origY: Double = 0.0) {
   }
 
   private def azimuthInDegrees(x: Double, y: Double, hexXY: HexXY) = {
-    val az = Math.atan2(x - hexXY.x, y - hexXY.y) // TODO - Double check this with Kerry C.
+    val az = Math.atan2(x - hexXY.x, y - hexXY.y) // Checked with Kerry C - this is correct as all is reversed due to azimuth
     if (az < 0.0) {
       (az + TWO_PI) / PI_OVER_180
     } else {
@@ -116,7 +118,8 @@ case class HexGrid(size: Double, origX: Double = 0.0, origY: Double = 0.0) {
   private def isInside(x: Double, y: Double, hexXY: HexXY) = {
     val qx = Math.abs(x - hexXY.x)
     val qy = Math.abs(y - hexXY.y)
-    if (qx > cellH || qy > size) false else (qx / cellH + qy / cellV - 2.0).abs <= 0.0000001
+    // if (qx > cellH || qy > size) false else (qx / cellH + qy / cellV - 2.0).abs <= 0.0000001
+    if (qx > cellH || qy > size) false else qx / cellH + qy / cellV <= 2.0
   }
 
   def convertRowColToHexXY(row: Long, col: Long, hexXY: HexXY): HexXY = {
