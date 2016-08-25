@@ -105,7 +105,7 @@ case class HexGrid(size: Double, origX: Double = 0.0, origY: Double = 0.0) {
   }
 
   private def azimuthInDegrees(x: Double, y: Double, hexXY: HexXY) = {
-    val az = Math.atan2(x - hexXY.x, y - hexXY.y)
+    val az = Math.atan2(x - hexXY.x, y - hexXY.y) // TODO - Double check this with Kerry C.
     if (az < 0.0) {
       (az + TWO_PI) / PI_OVER_180
     } else {
@@ -116,7 +116,7 @@ case class HexGrid(size: Double, origX: Double = 0.0, origY: Double = 0.0) {
   private def isInside(x: Double, y: Double, hexXY: HexXY) = {
     val qx = Math.abs(x - hexXY.x)
     val qy = Math.abs(y - hexXY.y)
-    if (qx > cellH || qy > size) false else qx / cellH + qy / cellV <= 2.0
+    if (qx > cellH || qy > size) false else (qx / cellH + qy / cellV - 2.0).abs <= 0.0000001
   }
 
   def convertRowColToHexXY(row: Long, col: Long, hexXY: HexXY): HexXY = {
@@ -144,7 +144,9 @@ case class HexGrid(size: Double, origX: Double = 0.0, origY: Double = 0.0) {
     val tempXY = Hex00()
     val rowcol = HexRowCol(row, col)
     convertRowColToHexXY(rowcol, tempXY)
-    while (!isInside(x, y, tempXY)) {
+    var g = 10 // TODO - remove guard against infinite loop
+    while (g > 0 && !isInside(x, y, tempXY)) {
+      g -= 1
       proceedToNeighbor(x, y, tempXY, rowcol)
       convertRowColToHexXY(rowcol, tempXY)
     }

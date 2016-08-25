@@ -1,6 +1,7 @@
 package com.esri.hex
 
-import org.scalatest.FlatSpec
+import org.scalatest.Matchers._
+import org.scalatest._
 
 /**
   */
@@ -43,5 +44,11 @@ class HexGridSpec extends FlatSpec {
     assertResult(size + size / 2.0) {
       pointXY.y
     }
+  }
+
+  it should "-7859566.073085553 5097327.411990407" in {
+    val hexGrid = HexGrid(50.0)
+    val rowcol = hexGrid.convertXYToRowCol(-7859566.073085553, 5097327.411990407)
+    rowcol should not be null
   }
 }
