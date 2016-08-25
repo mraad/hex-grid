@@ -116,10 +116,18 @@ case class HexGrid(size: Double, origX: Double = 0.0, origY: Double = 0.0) {
   }
 
   private def isInside(x: Double, y: Double, hexXY: HexXY) = {
-    val qx = Math.abs(x - hexXY.x)
-    val qy = Math.abs(y - hexXY.y)
-    // if (qx > cellH || qy > size) false else (qx / cellH + qy / cellV - 2.0).abs <= 0.0000001
-    if (qx > cellH || qy > size) false else qx / cellH + qy / cellV <= 2.0
+    val qx = (x - hexXY.x).abs
+    val qy = (y - hexXY.y).abs
+    if (qx > cellH || qy > size)
+      false
+    else {
+      val qq = qx / cellH + qy / cellV - 2.0
+      if (qq <= 0.0)
+        true
+      else
+        qq < 0.0000001
+    }
+    // if (qx > cellH || qy > size) false else qx / cellH + qy / cellV <= 2.0
   }
 
   def convertRowColToHexXY(row: Long, col: Long, hexXY: HexXY): HexXY = {
@@ -147,7 +155,7 @@ case class HexGrid(size: Double, origX: Double = 0.0, origY: Double = 0.0) {
     val tempXY = Hex00()
     val rowcol = HexRowCol(row, col)
     convertRowColToHexXY(rowcol, tempXY)
-    var g = 10 // TODO - remove guard against infinite loop
+    var g = 10 // Guard against infinite loop for conditions when orig X/Y is _not_ at min X/Y of input set
     while (g > 0 && !isInside(x, y, tempXY)) {
       g -= 1
       proceedToNeighbor(x, y, tempXY, rowcol)
