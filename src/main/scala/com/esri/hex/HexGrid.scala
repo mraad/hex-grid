@@ -122,7 +122,7 @@ case class HexGrid(size: Double, origX: Double = 0.0, origY: Double = 0.0) {
       false
     else {
       val qq = qx / cellH + qy / cellV - 2.0
-      if (qq <= 0.0)
+      if (qq < 0.0)
         true
       else
         qq < 0.0000001
