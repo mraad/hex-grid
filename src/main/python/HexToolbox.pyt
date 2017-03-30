@@ -4,7 +4,7 @@ import os
 
 
 class HexGrid:
-    def __init__(self, orig_x=0.0, orig_y=0.0, size=100):
+    def __init__(self, size=100, orig_x=0.0, orig_y=0.0):
         self.orig_x = orig_x
         self.orig_y = orig_y
         self.size = size
@@ -21,7 +21,7 @@ class HexGrid:
 
 
 class HexCell:
-    def __init__(self, size):
+    def __init__(self, size=100):
         self.xy = []
         for i in range(7):
             angle = math.pi * ((i % 6) + 0.5) / 3.0

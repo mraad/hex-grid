@@ -2,11 +2,13 @@ organization := "com.esri"
 
 name := "hex-grid"
 
-version := "1.1"
+version := "1.2"
 
 isSnapshot := true
 
-scalaVersion := "2.10.6"
+// scalaVersion := "2.10.6"
+
+crossScalaVersions := Seq("2.10.6", "2.11.7")
 
 resolvers += "Local Maven Repository" at "file:///" + Path.userHome + "/.m2/repository"
 
